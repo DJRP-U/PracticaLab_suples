@@ -116,7 +116,6 @@ export default function Principal() {
                                 <th>Categoria</th>
                                 <th>Asunto</th>
                                 <th>Resumen</th>
-                                <th>Archivo</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -135,39 +134,7 @@ export default function Principal() {
                                         <td>{dato.asunto}</td>
                                         <td>{dato.resumen}</td>
 
-                                        <td>{ }</td>
-
-
-
-
                                         <td style={{ textAlign: 'center' }}>
-
-                                            <a
-                                                href={`/mensaje/nuevo/${dato.remitente}`} // La ruta a la que quieres redirigir
-                                                className="btn btn-success font-weight-bold"
-                                                style={{
-                                                    fontSize: '16px',
-                                                    borderRadius: '5px',
-                                                    padding: '8px 15px',
-                                                    display: 'inline-block', // Para que el enlace se vea como un botón
-                                                    textDecoration: 'none', // Eliminar subrayado
-                            
-                                                }}
-                                            >
-                                                Responder
-                                            </a>
-                                            <br />
-                                            <button
-                                                className="btn btn-danger font-weight-bold"
-                                                onClick={() => handleClickRechazar(dato.remitente)}
-                                                style={{
-                                                    fontSize: '16px',
-                                                    borderRadius: '5px',
-                                                    padding: '8px 15px',
-                                                }}
-                                            >
-                                                Rechazar
-                                            </button>
 
                                         </td>
                                     </tr>

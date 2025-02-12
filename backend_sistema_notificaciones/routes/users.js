@@ -3,13 +3,9 @@ var router = express.Router();
 
 let jwt = require('jsonwebtoken');
 
-const { body, validationResult } = require('express-validator');
-
-
 const MensajeController = require('../app/controls/MensajeController');
 var mensajeController = new MensajeController();
-const RecordatorioController = require('../app/controls/RecordatorioController');
-var recordatorioController = new RecordatorioController();
+
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -59,8 +55,5 @@ router.get('/mensaje/listar/:valor',  mensajeController.obtenerValor);
 router.get('/mensaje/listar/:external',  mensajeController.obtener);
 router.post('/mensaje/recibir', mensajeController.recibirMensaje);
 
-/*RECORDATORIO CONTROLLER*/
-router.get('/recordatorio/listar/:external', recordatorioController.listar);
-router.post('/recordatorio/registrar', recordatorioController.guardar);
 
 module.exports = router;
