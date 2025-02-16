@@ -47,6 +47,7 @@ stages:
             acrName: '$(ACR_NAME)'
             acrUsername: '$(ACR_USER)'
             acrPassword: '$(ACR_PASSWORD)'
+            imageToDeploy: '$(CONTAINER_REGISTRY_URL)/backend-notificaciones:$(BACKEND_TAG)'
             containerAppName: 'backend'
             resourceGroup: 'Suples'
             targetPort: '8000'
