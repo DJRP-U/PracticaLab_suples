@@ -15,11 +15,30 @@ pool:
   demands:
   - agent.name -equals pool1 
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+stages:
+  - stage: Build_backend
+    displayName: "Construir backend"
+    jobs:
+      - job: Build_backend_container
+        steps:
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: 'Azure for Students(be47ff6d-9100-47c2-ab9a-af967aabfd60)'
+              scriptType: 'ps'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az acr login --name $(CONTAINER_REGISTRY_URL)
+            displayName: "inicio de sesion Azure"
+          - task: CmdLine@2
+            inputs:
+              script: |
+                cd backend_sistema_notificaciones
+                docker build -t $(CONTAINER_REGISTRY_URL)/backend-notificaciones:$(BACKEND_TAG) --build-arg DB_USERNAME="$(DB_USERNAME)" --build-arg DB_PASSWORD="$(DB_PASSWORD)" --build-arg DB_DATABASE="$(DB_DATABASE)" --build-arg DB_HOST="$(DB_HOST)" --build-arg DB_PORT="$(DB_PORT)" --build-arg DB_DIALECT="$(DB_DIALECT)" --build-arg DB_OPERATOR_ALIASES="$(DB_OPERATOR_ALIASES)" --build-arg NODE_ENV="$(NODE_ENV)" --build-arg KEY_SQ="$(KEY_SQ)"
+            displayName: "Compilando el contenedor de docker"
+          - task: CmdLine@2
+            inputs:
+              script: 'docker push $(CONTAINER_REGISTRY_URL)/backend-notificaciones:$(BACKEND_TAG)'
+          
+      
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+
