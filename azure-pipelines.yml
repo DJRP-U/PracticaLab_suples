@@ -39,6 +39,20 @@ stages:
             inputs:
               script: 'docker push $(CONTAINER_REGISTRY_URL)/backend-notificaciones:$(BACKEND_TAG)'
             displayName: "Enpujar contenedor a Container Registry"
+      - job: Deploy_backend_container
+        dependsOn: Build_backend_container
+        steps:
+        - task: AzureContainerApps@1
+          inputs:
+            azureSubscription: 'Azure for Students(be47ff6d-9100-47c2-ab9a-af967aabfd60)'
+            acrName: '$(ACR_NAME)'
+            acrUsername: '$(ACR_USER)'
+            acrPassword: '$(ACR_PASSWORD)'
+            imageToDeploy: '$(CONTAINER_REGISTRY_URL)/backend-notificaciones:$(BACKEND_TAG)'
+            containerAppName: 'backend'
+            resourceGroup: 'Suples'
+            targetPort: '8000'
+          
 
           
       
