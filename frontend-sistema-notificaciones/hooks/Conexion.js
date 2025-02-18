@@ -1,9 +1,8 @@
+require('dotenv').config();
 
-let URL = process.env.NEXT_PUBLIC_API_URL;
-
-if (!URL) {
-    throw new Error("NEXT_PUBLIC_API_URL no está definida en las variables de entorno");
-}
+let host = process.env.NEXT_PUBLIC_API_HOST;
+let port = process.env.NEXT_PUBLIC_API_PORT;
+let URL = `http://${host}:${port}/api/`;
 
 //METODO GENERAL PARA PETICIONES POST
 export async function peticionPost(recurso, data, key = "") {

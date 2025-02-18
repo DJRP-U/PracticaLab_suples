@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend_sistema_notificaciones
+      dockerfile: Dockerfile
+    container_name: backend
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_USERNAME=usuario_del_servidorbd
+      - DB_PASSWORD=password_del_servidorbd
+      - DB_DATABASE=nombre_bd
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DIALECT=mysql
+      - DB_OPERATOR_ALIASES=false
+      - NODE_ENV=development
+      - KEY_SQ=NOTIFICACION-GRUPO-SEXTO
+    networks:
+      - default
+    depends_on:
+        db:
+          condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend-sistema-notificaciones
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_HOST=backend
+        - NEXT_PUBLIC_API_PORT=8000
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment: 
+      - NEXT_PUBLIC_API_HOST=backend
+      - NEXT_PUBLIC_API_PORT=8000
+    networks:
+      - default
+
+  db:
+    image: mysql:latest
+    container_name: db
+    environment:
+      - MYSQL_ROOT_PASSWORD=password_del_servidorbd
+      - MYSQL_DATABASE=nombre_bd
+      - MYSQL_USER=usuario_del_servidorbd
+      - MYSQL_PASSWORD=password_del_servidorbd
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    networks:
+      - default
+    ports:
+      - "3306:3306"
+
+networks:
+  default:
+    driver: bridge

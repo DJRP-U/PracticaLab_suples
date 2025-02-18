@@ -1,5 +1,5 @@
 # Usa una imagen de Node.js como base
-FROM node:alpine
+FROM node:20
 
 # Define argumentos que pueden ser pasados durante la construcción
 ARG DB_USERNAME
